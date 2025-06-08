@@ -1,4 +1,47 @@
-# UniBT
+# This fork: UniBTDesigner
+
+If the project has many entities with BehaviorTree, then the implementation and visibility of nodes can now be separated by interfaces for each individual entity. To do this, you need to create your own interface from IBehaviorTreeType:
+```c#
+public interface ISimpEnemy : UniBT.IBehaviorTreeType
+{
+}
+```
+
+Then add the created interface to the controller of your entity and to the implementation of your nodes:
+```c#
+public class EnemyController : MonoBehaviour, ISimpEnemy
+{
+ //...
+}
+```
+```c#
+public class AttackAction : Action, ISimpEnemy
+{
+ //...
+}
+```
+...
+
+ In the BehaviorTree component, select the "Show Nodes By Type" option:
+
+<img src="images/started5.jpg" />
+
+ And now when editing BehaviorTree of your entity, only those implemented with your interface will appear in the node search:
+
+<img src="images/btSearch.jpg" />
+
+To use this fork (UniBTDesigner) - include it by adding the following dependency to the manifest:
+```json
+{
+  "dependencies": {
+    ...
+    "com.github.mrclaus.unibtdesigner": "https://github.com/MrClaus/UniBTDesigner.git?path=Assets/UniBT/Scripts"
+  }
+}
+```
+This will bring more order to your project architecture.
+
+# Original: UniBT
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![GitHub release](https://img.shields.io/github/release/yoshidan/UniBT.svg)](https://github.com/yoshidan/UniBT/releases)
