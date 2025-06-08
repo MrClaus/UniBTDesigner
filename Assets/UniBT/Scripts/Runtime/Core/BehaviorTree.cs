@@ -9,7 +9,17 @@ namespace UniBT
     }
     public class BehaviorTree : MonoBehaviour
     {
-        
+#if UNITY_EDITOR
+        public bool ShowNodesByType
+        {
+            get => showNodesByType;
+            set => showNodesByType = value;
+
+        }
+#endif
+
+        private bool showNodesByType;
+
         [HideInInspector]
         [SerializeReference]
         private Root root = new Root();

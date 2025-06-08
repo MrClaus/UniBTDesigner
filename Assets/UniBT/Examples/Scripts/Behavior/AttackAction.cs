@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace UniBT.Examples.Scripts.Behavior
 {
-    public class AttackAction : Action
+    public class AttackAction : Action, ISimpEnemy
     {
         [SerializeField]
         private int force;

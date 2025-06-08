@@ -26,7 +26,7 @@ namespace UniBT.Editor
 
         private readonly NodeResolver nodeResolver = new NodeResolver();
 
-        public BehaviorTreeView(BehaviorTree bt, EditorWindow editor)
+        public BehaviorTreeView(BehaviorTree bt, EditorWindow editor, ShowOptionsSearch options = null)
         {
             behaviorTree = bt;
             style.flexGrow = 1;
@@ -46,7 +46,7 @@ namespace UniBT.Editor
             this.AddManipulator(contentDragger);
 
             var provider = ScriptableObject.CreateInstance<NodeSearchWindowProvider>();
-            provider.Initialize(this, editor);
+            provider.Initialize(this, editor, options);
 
             nodeCreationRequest += context =>
             {

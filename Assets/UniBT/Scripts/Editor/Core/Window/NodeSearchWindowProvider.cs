@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -11,12 +12,24 @@ namespace UniBT.Editor
     {
         private GraphView graphView;
         private EditorWindow graphEditor;
+        private ShowOptionsSearch showOptionsSearch;
         private readonly NodeResolver nodeResolver = new NodeResolver();
 
-        public void Initialize(GraphView graphView, EditorWindow graphEditor)
+        public void Initialize(GraphView graphView, EditorWindow graphEditor, ShowOptionsSearch options = null)
         {
             this.graphView = graphView;
             this.graphEditor = graphEditor;
+            this.showOptionsSearch = options;
+        }
+
+        private bool IsShowNodesByType(Type type)
+        {
+            if (showOptionsSearch == null || !showOptionsSearch.IsShow || showOptionsSearch.SearchType == null)
+            {
+                return true;
+            }
+
+            return type.GetInterfaces().Any(iType => iType == showOptionsSearch.SearchType);
         }
 
         List<SearchTreeEntry> ISearchWindowProvider.CreateSearchTree(SearchWindowContext context)
@@ -28,7 +41,7 @@ namespace UniBT.Editor
             {
                 foreach (var type in assembly.GetTypes())
                 {
-                    if (type != typeof(Root) && !type.IsAbstract && type.IsSubclassOf(typeof(NodeBehavior)))
+                    if (type != typeof(Root) && !type.IsAbstract && type.IsSubclassOf(typeof(NodeBehavior)) && IsShowNodesByType(type))
                     {
                         entries.Add(new SearchTreeEntry(new GUIContent(type.Name))
                         {
@@ -53,6 +66,5 @@ namespace UniBT.Editor
             this.graphView.AddElement(node);
             return true;
         }
-
     }
 }

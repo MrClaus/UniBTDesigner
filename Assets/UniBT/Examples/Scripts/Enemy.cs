@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 namespace UniBT.Examples.Scripts
 {
-    public class Enemy : MonoBehaviour
+    public class Enemy : MonoBehaviour, ISimpEnemy
     {
         public float Hate { get; private set; }
 

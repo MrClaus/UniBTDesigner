@@ -12,15 +12,16 @@ namespace UniBT.Editor
         private static readonly Dictionary<GameObject,GraphEditorWindow> cache = new Dictionary<GameObject, GraphEditorWindow>();
 
         private GameObject key { get; set; }
+        public ShowOptionsSearch Options { get; private set; }
 
-        public static void Show(BehaviorTree bt)
+        public static void Show(BehaviorTree bt, ShowOptionsSearch options = null)
         {
-            var window = Create(bt);
+            var window = Create(bt, options);
             window.Show();
             window.Focus();
         }
 
-        private static GraphEditorWindow Create(BehaviorTree bt)
+        private static GraphEditorWindow Create(BehaviorTree bt, ShowOptionsSearch options)
         {
             var key = bt.gameObject;
             if (cache.ContainsKey(key))
@@ -29,6 +30,7 @@ namespace UniBT.Editor
             }
 
             var window = CreateInstance<GraphEditorWindow>();
+            window.Options = options;
             StructGraphView(window, bt);
             window.titleContent = new GUIContent($"BehaviorTree Editor({bt.gameObject.name})");
             window.key = key;
@@ -39,7 +41,7 @@ namespace UniBT.Editor
         private static void StructGraphView(GraphEditorWindow window, BehaviorTree behaviorTree)
         {
             window.rootVisualElement.Clear();
-            var graphView = new BehaviorTreeView(behaviorTree, window);
+            var graphView = new BehaviorTreeView(behaviorTree, window, window.Options);
             graphView.Restore();
             window.rootVisualElement.Add(window.CreateToolBar(graphView));
             window.rootVisualElement.Add(graphView);
@@ -120,9 +122,6 @@ namespace UniBT.Editor
                     GUILayout.EndHorizontal();
                 }
             );
-
         }
-
-
     }
 }
