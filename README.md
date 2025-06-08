@@ -40,6 +40,7 @@ To use this fork (UniBTDesigner) - include it by adding the following dependency
 }
 ```
 This will bring more order to your project architecture.
+***
 
 # Original: UniBT
 
